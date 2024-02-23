@@ -5,6 +5,7 @@ import * as directives from 'vuetify/directives'
 
 // Styles
 import 'vuetify/styles'
+import '@mdi/font/css/materialdesignicons.css'
 
 export default createVuetify( {
   components,

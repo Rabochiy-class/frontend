@@ -58,7 +58,6 @@ const getAuth = async () => {
       denied.value = true
     }
   }
-
 }
 </script>
 

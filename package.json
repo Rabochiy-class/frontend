@@ -10,6 +10,7 @@
     "generate:api": "openapi-generator-cli generate -g typescript-fetch -o src/services/api -i swagger.yaml"
   },
   "dependencies": {
+    "@mdi/font": "^7.4.47",
     "pinia": "^2.1.7",
     "sass": "^1.71.1",
     "vite-plugin-vuetify": "^2.0.1",

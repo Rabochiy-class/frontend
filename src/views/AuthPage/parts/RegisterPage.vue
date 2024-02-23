@@ -55,6 +55,7 @@
 <script setup >
 import { ref, reactive } from 'vue'
 import { useAuthStore } from '@/store/useAuthStore'
+import { useRouter } from 'vue-router'
 
 const denied = ref( false )
 
@@ -84,6 +85,7 @@ const createUser = async () => {
 }
 
 const code = ref( '' )
+const router = useRouter()
 const sendCode = async () => {
   const authorized = await useAuth.confirmEmail( { code: code.value, email: user.email } )
 

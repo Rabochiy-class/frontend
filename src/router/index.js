@@ -26,7 +26,41 @@ const routes = [
       {
         path: 'main',
         name: 'MainPage',
-        component: () => import( '@/views/MainPage/MainPage.vue' ),
+        component: () => import( '@/views/MainPage.vue' ),
+        children: [
+          {
+            path: '',
+            name: 'NewsPage',
+            component: () => import( '@/views/NewsPage/NewsPage.vue' ),
+          },
+          {
+            path: 'donations',
+            name: 'DonationsPage',
+            component: () => import( '@/views/DonationsPage/DonationsPage.vue' ),
+            children: [
+              {
+                path: '',
+                name: 'DonationItems',
+                component: () => import( '@/views/DonationsPage/parts/DonationItems.vue' ),
+              },
+              {
+                path: 'centers',
+                name: 'CentersPage',
+                component: () => import( '@/views/DonationsPage/parts/CentersPage.vue' ),
+              },
+              {
+                path: 'order',
+                name: 'OrderForm',
+                component: () => import( '@/views/DonationsPage/parts/OrderForm.vue' ),
+              },
+            ],
+          },
+          {
+            path: 'account',
+            name: 'AccountPage',
+            component: () => import( '@/views/AccountPage/AccountPage.vue' ),
+          },
+        ],
       },
     ],
   },
