@@ -1,5 +1,5 @@
 <template>
-  <div class="px-6" >
+  <div >
     <VChipGroup v-model="chip" >
       <VChip value="future" >Предстоящие</VChip>
 
@@ -14,34 +14,44 @@
 
 <script setup >
 import { ref } from 'vue'
-import DonationCard from '@/components/DonationCard.vue'
+import DonationCard from '@/components/cards/DonationCard.vue'
 
 const chip = ref( 'future' )
 
 const cards = [
   {
     id: 0,
-    date: new Date(),
-    name: 'Name 1',
-    address: 'Новый Зыковский пр-д, д. 4а',
-    bloodType: 'Цельная кровь',
-    payType: 'Безвозмездно',
+    planDate: new Date(),
+    title: 'Name 1',
+    bloodStationId: '',
+    bloodStation: {
+      address: 'Новый Зыковский пр-д, д. 4а'
+    },
+    isOut: true,
+    paymentType: 'free',
+    bloodClass: 'erythrocytes',
   },
   {
     id: 1,
-    date: new Date(),
-    name: 'Name 2',
-    address: 'Новый Зыковский пр-д, д. 4а',
-    bloodType: 'Цельная кровь',
-    payType: 'Безвозмездно',    
+    planDate: new Date(),
+    title: 'Name 2',
+    bloodStation: {
+      address: 'Новый Зыковский пр-д, д. 4а'
+    },
+    isOut: true,
+    paymentType: 'free',
+    bloodClass: 'plasma',
   },
   {
     id: 2,
-    date: new Date(),
+    planDate: new Date(),
     name: 'Name 3',
-    address: 'Новый Зыковский пр-д, д. 4а',
-    bloodType: 'Цельная кровь',
-    payType: 'Безвозмездно',    
+    bloodStation: {
+      address: 'Новый Зыковский пр-д, д. 4а'
+    },
+    isOut: true,
+    paymentType: 'free',
+    bloodClass: 'blood',
   },
 ]
 </script>

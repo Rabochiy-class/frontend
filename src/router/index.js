@@ -29,9 +29,26 @@ const routes = [
         component: () => import( '@/views/MainPage.vue' ),
         children: [
           {
-            path: '',
+            path: '/main/home',
             name: 'NewsPage',
             component: () => import( '@/views/NewsPage/NewsPage.vue' ),
+            children: [
+              {
+                path: '',
+                name: 'ProjectsPage',
+                component: () => import( '@/views/NewsPage/parts/ProjectsPage.vue' ),
+              },
+              {
+                path: 'events',
+                name: 'EventsPage',
+                component: () => import( '@/views/NewsPage/parts/EventsPage.vue' ),
+              },
+              {
+                path: 'articles',
+                name: 'ArticlesPage',
+                component: () => import( '@/views/NewsPage/parts/ArticlesPage.vue' ),
+              },             
+            ],  
           },
           {
             path: 'donations',
@@ -51,14 +68,38 @@ const routes = [
               {
                 path: 'order',
                 name: 'OrderForm',
+                props: true,
                 component: () => import( '@/views/DonationsPage/parts/OrderForm.vue' ),
               },
+              {
+                path: 'order/:body',
+                name: 'OrderFormWithId',
+                props: true,
+                component: () => import( '@/views/DonationsPage/parts/OrderForm.vue' ),
+              },              
             ],
           },
           {
-            path: 'account',
-            name: 'AccountPage',
-            component: () => import( '@/views/AccountPage/AccountPage.vue' ),
+            path: 'profile',
+            name: 'ProfilePage',
+            component: () => import( '@/views/ProfilePage/ProfilePage.vue' ),
+            children: [
+              {
+                path: '',
+                name: 'ProfileInfo',
+                component: () => import( '@/views/ProfilePage/parts/ProfileInfo.vue' ),
+              },
+              {
+                path: 'bonuses',
+                name: 'BonusesPage',
+                component: () => import( '@/views/ProfilePage/parts/BonusesPage.vue' ),
+              },
+              {
+                path: 'settings',
+                name: 'SettingsPage',
+                component: () => import( '@/views/ProfilePage/parts/SettingsPage.vue' ),
+              },             
+            ],            
           },
         ],
       },

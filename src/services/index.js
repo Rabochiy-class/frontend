@@ -1,10 +1,10 @@
-import { AuthenticationApi, AccountCreationAndConfirmationApi, Configuration } from './api'
+import { AuthenticationApi, DefaultApi, AccountCreationAndConfirmationApi, Configuration } from './api'
 
 const config = new Configuration( {
-  basePath: 'https://hackaton.donorsearch.org',
+  basePath: 'http://31.129.45.170:5000',
 } )
 
 export const Service = {
   authApi: new AuthenticationApi( config ),
-  accountCreationApi: new AccountCreationAndConfirmationApi( config ),
+  defaultApi: new DefaultApi( config ),
 }

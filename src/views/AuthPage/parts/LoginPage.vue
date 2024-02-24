@@ -50,7 +50,7 @@ const getAuth = async () => {
 
   if ( valid ) {
     try {
-      const authorized = await useAuth.auth(  user)
+      const authorized = await useAuth.authLogin( user )
       const name = authorized ? 'MainPage' : 'UnauthorizedPage'
       router.push( { name } )
     } catch ( error ) {

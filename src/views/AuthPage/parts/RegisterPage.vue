@@ -74,7 +74,7 @@ const createUser = async () => {
 
   if ( valid ) {
     try {
-      await useAuth.createUser(  user)
+      await useAuth.requestRegistrationCode(  user)
       mode.value = 2
     } catch ( error ) {
       console.warn( error )

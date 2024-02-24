@@ -1,7 +1,8 @@
 <template>
-  <div class="text-h4">OrderForm</div>
+  <DonationPlanForm @update="$emit( 'updateTabToForm' )" />
 </template>
 
 <script setup >
+import DonationPlanForm from '@/components/forms/DonationPlanForm.vue';
 
 </script>

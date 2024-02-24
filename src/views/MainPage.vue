@@ -6,25 +6,19 @@
 
       <VBtn
         value="NewsPage"
-        @click="router.push( '/main' )" >
+        @click="router.push( '/main/home' )" >
           <VIcon>mdi-newspaper</VIcon>
-
-          <!-- <span>Recent</span> -->
       </VBtn>
     
       <VBtn 
         value="DonationsPage"
         @click="router.push( '/main/donations' )" >
           <VIcon>mdi-hand-coin</VIcon>
-
-          <!-- <span>Favorites</span> -->
       </VBtn>
 
-      <VBtn value="AccountPage" 
-        @click="router.push( '/main/account' )" >
+      <VBtn value="ProfilePage" 
+        @click="router.push( '/main/profile' )" >
           <VIcon>mdi-account</VIcon>
-
-          <!-- <span>Nearby</span> -->
       </VBtn>
 
   </VBottomNavigation>
@@ -37,7 +31,8 @@ const router = useRouter()
 const route = useRoute()
 
 onMounted( () => {
-  tab.value = route.name
+  tab.value = route.path.includes( 'profile' ) ? 'ProfilePage' :
+    route.path.includes( 'donations' ) ? 'DonationsPage' : 'NewsPage'
 })
 
 const tab = ref( 'DonationsPage' )
