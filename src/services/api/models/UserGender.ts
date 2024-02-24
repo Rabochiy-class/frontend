@@ -40,7 +40,7 @@ export function UserGenderFromJSONTyped(json: any, ignoreDiscriminator: boolean)
     if ((json === undefined) || (json === null)) {
         return json;
     }
-    return { 'error': 'error' } as any;
+    return { error: 'errorType' } as any;
 }
 
 export function UserGenderToJSON(value?: UserGender | null): any {
@@ -50,6 +50,7 @@ export function UserGenderToJSON(value?: UserGender | null): any {
     if (value === null) {
         return null;
     }
+
     return {};
 }
 

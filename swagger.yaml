@@ -3,6 +3,47 @@ info:
   title: TelegramWebDonorSearch API
   version: 1.0.0
 paths:
+  /api/donation_plan/:
+    get:
+      operationId: donation_plan_list
+      description: Retrieves a list of donation plans created by the authenticated
+        user, excluding aborted plans.
+      summary: List Donation Plans
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - Donation Plan Management
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedDonationPlanList'
+          description: ''
+  
   /api/auth/registration/:
     post:
       operationId: register_new_user
@@ -409,6 +450,342 @@ paths:
           description: ''
 components:
   schemas:
+    PaginatedDonationPlanList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/DonationPlan'
+    BloodStationSchedule:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        dow:
+          type: string
+          readOnly: true
+        start:
+          type: string
+          format: time
+        end:
+          type: string
+          format: time
+      required:
+      - dow
+      - end
+      - id
+      - start
+    BloodStationPhone:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        phone:
+          type: string
+          title: Номер телефона
+          maxLength: 25
+        comment:
+          type: string
+          title: Коментарий
+      required:
+      - id
+      - phone      
+    BloodStation:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        city_id:
+          type: integer
+        city:
+          $ref: '#/components/schemas/City'
+        lat:
+          type: string
+          readOnly: true
+        lng:
+          type: string
+          readOnly: true
+        schedule:
+          type: array
+          items:
+            $ref: '#/components/schemas/BloodStationSchedule'
+        phone_numbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/BloodStationPhone'
+        blood_group:
+          type: string
+          readOnly: true
+        title:
+          type: string
+          title: Название
+          maxLength: 255
+        parser_url:
+          type: string
+          format: uri
+          nullable: true
+          title: Страница в службе крови
+          maxLength: 200
+        is_get_from_parser:
+          type: boolean
+          title: Принимать потребности у службы крови?
+          description: Данные будут обновляться каждый день в час ночи.
+        o_plus:
+          allOf:
+          - $ref: '#/components/schemas/PlusMinusUniversalEnum'
+          title: O(I) Rh+
+        o_minus:
+          allOf:
+          - $ref: '#/components/schemas/PlusMinusUniversalEnum'
+          title: O(I) Rh-
+        a_plus:
+          allOf:
+          - $ref: '#/components/schemas/PlusMinusUniversalEnum'
+          title: A(II) Rh+
+        a_minus:
+          allOf:
+          - $ref: '#/components/schemas/PlusMinusUniversalEnum'
+          title: A(II) Rh-
+        b_plus:
+          allOf:
+          - $ref: '#/components/schemas/PlusMinusUniversalEnum'
+          title: B(III) Rh+
+        b_minus:
+          allOf:
+          - $ref: '#/components/schemas/PlusMinusUniversalEnum'
+          title: B(III) Rh-
+        ab_plus:
+          allOf:
+          - $ref: '#/components/schemas/PlusMinusUniversalEnum'
+          title: AB(IV) Rh+
+        ab_minus:
+          allOf:
+          - $ref: '#/components/schemas/PlusMinusUniversalEnum'
+          title: AB(IV) Rh-
+        blood:
+          allOf:
+          - $ref: '#/components/schemas/PlusMinusUniversalEnum'
+          title: Цельная кровь
+        plasma:
+          allOf:
+          - $ref: '#/components/schemas/PlusMinusUniversalEnum'
+          title: Плазма
+        platelets:
+          allOf:
+          - $ref: '#/components/schemas/PlusMinusUniversalEnum'
+          title: Тромбоциты
+        erythrocytes:
+          allOf:
+          - $ref: '#/components/schemas/PlusMinusUniversalEnum'
+          title: Эритроциты
+        leukocytes:
+          allOf:
+          - $ref: '#/components/schemas/PlusMinusUniversalEnum'
+          title: Гранулоциты (Лейкоциты)
+        address:
+          type: string
+          title: Адрес
+          maxLength: 255
+        site:
+          type: string
+          title: Сайт
+          maxLength: 255
+        phones:
+          type: string
+          title: Телефоны
+          description: Устаревшее поле
+          maxLength: 255
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        worktime:
+          type: string
+          title: Режим работы
+          description: Устаревшее поле
+          maxLength: 255
+        without_registration:
+          type: boolean
+          title: Можно сдавать без прописки
+          description: Центры крови принимает доноров без местной прописки
+        with_typing:
+          type: boolean
+          title: Можно пройти типирование
+          description: Здесь вы можете войти в <a href="https://wmdd2020.donorsearch.org"
+            target="_blank">регистр доноров костного мозга</a>
+        for_moscow:
+          type: boolean
+          title: В зачёт почётного донора Москвы
+          description: Сдавая в этом центре крови можно получить звание Почётного
+            донора Москвы
+        closed:
+          type: boolean
+          title: Ликвидирован
+          description: Если данный центр крови больше не существует, то не будет показан
+            в поиске, где сдать кровь. Однако при добавлении донаций, доноры могут
+            найти этот центр крови, чтобы отметить свои старые донации.
+        priority:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Донаций добавлено
+      required:
+      - blood_group
+      - city
+      - city_id
+      - id
+      - lat
+      - lng
+      - phone_numbers
+      - schedule
+      - title
+    PlusMinusUniversalEnum:
+      enum:
+      - need
+      - no_need
+      - unknown
+      type: string
+      description: |-
+        * `need` - нужна
+        * `no_need` - не нужна
+        * `unknown` - нет данных
+    DonationPlan:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        event:
+          type: string
+          readOnly: true
+        blood_station_id:
+          type: integer
+          nullable: true
+        blood_station:
+          allOf:
+          - $ref: '#/components/schemas/BloodStation'
+          readOnly: true
+        city_id:
+          type: integer
+          nullable: true
+        city:
+          allOf:
+          - $ref: '#/components/schemas/City'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата добавления
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата изменения
+        object_id:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+          title: ID записи
+        blood_class:
+          allOf:
+          - $ref: '#/components/schemas/BloodClassF07Enum'
+          title: Класс крови
+        plan_date:
+          type: string
+          format: date
+          title: Планируемая дата
+        payment_type:
+          nullable: true
+          title: Тип донации
+          oneOf:
+          - $ref: '#/components/schemas/PaymentTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        status:
+          allOf:
+          - $ref: '#/components/schemas/DonationPlanStatusEnum'
+          title: Статус
+        is_out:
+          type: boolean
+          title: Выездная акция
+        user:
+          type: integer
+          readOnly: true
+          title: Пользователь
+        content_type:
+          type: integer
+          nullable: true
+          title: Тип записи
+        donation:
+          type: integer
+          nullable: true
+          title: Добавленная Донация
+      required:
+      - blood_station
+      - city
+      - created_at
+      - event
+      - id
+      - plan_date
+      - updated_at
+      - user     
+    BloodClassF07Enum:
+      enum:
+      - blood
+      - plasma
+      - platelets
+      - erythrocytes
+      - leukocytes
+      type: string
+      description: |-
+        * `blood` - Цельная кровь
+        * `plasma` - Плазма
+        * `platelets` - Тромбоциты
+        * `erythrocytes` - Эритроциты
+        * `leukocytes` - Гранулоциты (Лейкоциты)      
+    PaymentTypeEnum:
+      enum:
+      - free
+      - payed
+      type: string
+      description: |-
+        * `free` - Безвозмездно
+        * `payed` - Платно      
+    DonationPlanStatusEnum:
+      enum:
+      - active
+      - abort
+      - done
+      - widget_abort
+      type: string
+      description: |-
+        * `active` - донация запланирована
+        * `abort` - планирование отменено
+        * `done` - запланированная донация добавлена
+        * `widget_abort` - отказ прикрепить справку к прошедшему планированию
+    NullEnum:
+      enum:
+      - male
+      - female
     BlankEnum:
       enum:
       - male

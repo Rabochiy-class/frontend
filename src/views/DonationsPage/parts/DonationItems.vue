@@ -13,10 +13,17 @@
 </template>
 
 <script setup >
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import DonationCard from '@/components/cards/DonationCard.vue'
+import { useDonationsStore } from '@/store/useDonationsStore'
 
 const chip = ref( 'future' )
+
+const donationsStore = useDonationsStore()
+
+onMounted( async () => {
+  await donationsStore.getPlannedDonations()
+})
 
 const cards = [
   {

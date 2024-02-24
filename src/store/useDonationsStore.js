@@ -8,14 +8,13 @@ export const useDonationsStore = defineStore( 'donations', {
     authorized: false
   } ),
   actions: {
-    async getPastDonations() {
+    async getPlannedDonations() {
       try {
-        console.log( { authLoginCreateRequest } )
-        const user = await Service.authApi.authLoginCreate( { authLoginCreateRequest } )
+        console.log()
+        const plannedDonations = await Service.donationPlanApi.donationPlanList()
 
-        if ( user ) {
-          return true
-        }
+        console.log( 'plannedDonations: ', plannedDonations )
+
         console.log( user )
       } catch (error) {
         console.warn( error )
