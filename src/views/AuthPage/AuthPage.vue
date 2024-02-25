@@ -25,7 +25,7 @@ const router = useRouter()
 
 onMounted( () => {
   if ( localStorage.getItem( 'token' ) ) {
-    router.push( { name: 'DonationsPage' } )
+    router.push( { name: 'DonationItems' } )
   }
   page.value = route.name
 })

@@ -51,7 +51,7 @@ const getAuth = async () => {
   if ( valid ) {
     try {
       const authorized = await useAuth.authLogin( user )
-      const name = authorized ? 'DonationsPage' : 'UnauthorizedPage'
+      const name = authorized ? 'DonationItems' : 'UnauthorizedPage'
       router.push( { name } )
     } catch ( error ) {
       console.warn( error )

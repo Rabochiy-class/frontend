@@ -89,7 +89,7 @@ const router = useRouter()
 const sendCode = async () => {
   const authorized = await useAuth.confirmEmail( { code: code.value, email: user.email } )
 
-  const name = authorized ? 'DonationsPage' : 'UnauthorizedPage'
+  const name = authorized ? 'DonationItems' : 'UnauthorizedPage'
   router.push( { name } )
 }
 </script>

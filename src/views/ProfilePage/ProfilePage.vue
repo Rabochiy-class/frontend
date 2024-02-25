@@ -20,11 +20,15 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { useAuthStore } from '@/store/useAuthStore';
 
 const page = ref( 'DonationItems' )
 
+const useAuth = useAuthStore()
 const route = useRoute()
-onMounted( () => {
+onMounted( async () => {
+  await useAuth.getAuth()
+
   page.value = route.path.includes( 'settings' ) ? 'SettingsPage' :
     route.path.includes( 'bonuses' ) ? 'BonusesPage' : 'ProfileInfo'
 })
