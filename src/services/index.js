@@ -1,4 +1,4 @@
-import { AuthenticationApi, DefaultApi, DonationPlanManagementApi, DonationManagementApi, AccountDataManagementApi, Configuration } from './api'
+import { AuthenticationApi, BonusInformationApi, DefaultApi, DonationPlanManagementApi, DonationManagementApi, AccountDataManagementApi, Configuration } from './api'
 
 const config = new Configuration( {
   basePath: 'https://streamsync.ru/backend',
@@ -13,5 +13,6 @@ export const Service = {
   defaultApi: new DefaultApi( config ),
   donationPlanApi: new DonationPlanManagementApi( config ),
   donationApi: new DonationManagementApi( config ),
-  checkLoggingAPi: new AccountDataManagementApi( config )
+  checkLoggingAPi: new AccountDataManagementApi( config ),
+  bonusInformationApi: new BonusInformationApi( config )
 }

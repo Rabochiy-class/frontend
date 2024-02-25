@@ -1,5 +1,5 @@
 <template>
-  <VCard class="text-left pb-4">
+  <VCard class="text-left pb-4 bonus-card">
     <VImg
       :src="card.bonusImage"
       cover />
@@ -8,7 +8,7 @@
     </VCardTitle>
 
     <VCardSubtitle>
-      до {{ card.dateValidity }}
+      до {{ card.dateValidity ? card.dateValidity.toLocaleDateString( 'ru' ) : 'Дедлайн недоступен' }}
     </VCardSubtitle>      
   </VCard>
 

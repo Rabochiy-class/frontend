@@ -9,9 +9,21 @@ export const useAuthStore = defineStore( 'auth', {
     authorized: false
   } ),
   actions: {
+    async updateInfo( patchedUser ) {
+      try {
+        const user = await Service.checkLoggingAPi.authMePartialUpdate( { patchedUser } )
+
+        if ( user ) {
+          this.user = user
+          console.log( 'user: ', user )
+        }
+      } catch (error) {
+        console.warn( error )
+      } 
+    },
     async getAuth() {
       try {
-        const { user } = await Service.checkLoggingAPi.authMeRetrieve()
+        const user = await Service.checkLoggingAPi.authMeRetrieve()
 
         if ( user ) {
           this.user = user

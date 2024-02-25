@@ -29,11 +29,9 @@ export const useDonationsStore = defineStore( 'donations', {
         return false
       }
     },
-    async donationPlanUpdate( donationPlan ) {
+    async donationPastCreate( donationCreate ) {
       try {
-        console.log( 'donationPlan: ', donationPlan )
-
-        const { results } = await Service.donationPlanApi.donationPlanPartialUpdate( { donationPlan } )
+        await Service.donationApi.donationsCreate( { donationCreate } )
 
         // this.futureDonations = results
       } catch (error) {
@@ -41,6 +39,29 @@ export const useDonationsStore = defineStore( 'donations', {
         return false
       }
     },    
+    async donationPlanUpdate( donationPlan ) {
+      try {
+
+        await Service.donationPlanApi.donationPlanPartialUpdate( { donationPlan } )
+
+        // this.futureDonations = results
+      } catch (error) {
+        console.warn( error )
+        return false
+      }
+    },
+    async donationPastUpdate( donationPlan ) {
+      try {
+        console.log( 'donationPlan: ', donationPlan )
+
+        const { results } = await Service.donationApi.donationsPartialUpdate( { donationPlan } )
+
+        // this.futureDonations = results
+      } catch (error) {
+        console.warn( error )
+        return false
+      }
+    },      
     async getDonations() {
       try {
         const { results } = await Service.donationApi.donationsList()
@@ -51,6 +72,14 @@ export const useDonationsStore = defineStore( 'donations', {
         console.warn( error )
         return false
       }
-    },    
+    },
+    async deleteDonation( id ) {
+      try {
+        await Service.donationPlanApi.donationPlanDestroy( { id } )
+
+      } catch ( error ) {
+        console.warn( error )
+      }
+    }  
   },
 } )

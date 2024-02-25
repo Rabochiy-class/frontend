@@ -201,13 +201,15 @@ export function DonationPlanFromJSONTyped(json: any, ignoreDiscriminator: boolea
     };
 }
 
-export function DonationPlanToJSON(value?: DonationPlan | null): any {
+export function DonationPlanToJSON(value?: any | null): any {
     if (value === undefined) {
         return undefined;
     }
     if (value === null) {
         return null;
     }
+
+    console.log( 'valu1', value.patchedDonationPlan )
     return {
         
         'blood_station_id': value.bloodStationId,

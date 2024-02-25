@@ -73,10 +73,9 @@
 </template>
 
 <script setup >
-import { reactive, onMounted } from 'vue'
-import { useDonationsStore } from '@/store/useDonationsStore'
+import { reactive, onMounted, defineEmits } from 'vue'
 
-const donationsStore = useDonationsStore()
+const emit = defineEmits( 'update' )
 
 onMounted( () => {
   Object.keys( props.user ).forEach( ( key ) => {
@@ -116,7 +115,7 @@ let cities = reactive([
 ])
 
 const saveUserInfo = () => {
-  console.log( 'savedUser' )
+  emit( 'update', user )
 }
 
 </script>

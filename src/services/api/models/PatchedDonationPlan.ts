@@ -201,6 +201,7 @@ export function PatchedDonationPlanToJSON(value?: PatchedDonationPlan | null): a
     if (value === null) {
         return null;
     }
+
     return {
         
         'blood_station_id': value.bloodStationId,

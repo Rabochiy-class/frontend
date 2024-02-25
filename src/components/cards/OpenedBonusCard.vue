@@ -27,7 +27,7 @@
     </VCardText>
 
     <VCardSubtitle>
-      до {{ card.dateValidity }}
+      до {{ card.dateValidity ? card.dateValidity.toLocaleDateString( 'ru' ) : 'Дедлайн недоступен'  }}
     </VCardSubtitle>
     
     <VCardActions class="d-flex flex-column" >

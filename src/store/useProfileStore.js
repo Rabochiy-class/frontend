@@ -3,17 +3,16 @@ import { Service } from '@/services'
 
 export const useProfileStore = defineStore( 'profile', {
   state: () => ( {
-    user: {},
-    userId: null,
-    authorized: false
+    bonuses: [],
   } ),
   actions: {
-    async auth( authLoginCreateRequest ) {
+    async getBonuses() {
       try {
-        console.log( { authLoginCreateRequest } )
-        const user = await Service.authApi.authLoginCreate( { authLoginCreateRequest } )
+        const { results } = await Service.bonusInformationApi.bonusesList()
 
-        if ( user ) {
+        if ( results ) {
+          console.log( 'bonuses: ', results )
+          this.bonuses = results
           return true
         }
         console.log( user )
@@ -22,23 +21,21 @@ export const useProfileStore = defineStore( 'profile', {
         return false
       }
       return this.authorized
-      // this.user = user
     },
-    async createUser( user ) {
-      console.log( { user } )
-      // const user = await Service.accountCreationApi.authRegistrationCreate( { registration } )
-      this.userId = 'test_UserId'
-    },
-    async confirmEmail( body ) {
+    async getBonusById( id ) {
       try {
-        console.log( { ...body, userId: this.userId } )
-        // const user = await Service.accountCreationApi.authRegistrationCreate( { registration } )
-
-        this.authorized = true
+        const bonus = await Service.bonusInformationApi.bonusesRetrieve( { id } )
+ 
+        if ( bonus ) {
+          console.log( 'bonuses: ', bonus )
+          return bonus
+        }
+        console.log( user )
       } catch (error) {
         console.warn( error )
+        return false
       }
       return this.authorized
-    },
+    },    
   },
 } )

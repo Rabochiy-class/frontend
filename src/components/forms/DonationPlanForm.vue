@@ -1,5 +1,14 @@
 <template >
   <VForm ref="form" class="w-100 text-left" >
+    <VChipGroup v-model="chip" >
+      <VChip value="future" >
+        На предстоящую
+      </VChip>
+
+      <VChip value="past" >
+        На прошедшую
+      </VChip>
+    </VChipGroup>    
     <p class="text-h6">Выберите тип донации</p>
     <p class="text-subtitle-2">После выбора типа донации автоматически отобразится ближайшая 
       доступная дата с учётом интервалов между донациями</p>
@@ -76,7 +85,6 @@ import { ref, reactive, onMounted, defineEmits } from 'vue'
 import { useDonationsStore } from '@/store/useDonationsStore'
 import FormCard from '@/components/cards/FormCard.vue'
 import { useRoute } from 'vue-router'
-import { PaymentTypeEnum } from '@/services/api';
 
 const emit = defineEmits( [ 'update' ] )
 
@@ -132,6 +140,7 @@ const info = reactive({
   donation: null,
 })
 
+const chip = ref( 'future' )
 const donationsStore = useDonationsStore()
 const addDonation = async () => {
   const patchedDonationPlan = {
@@ -143,9 +152,17 @@ const addDonation = async () => {
 
   console.log( 'patchedDonationPlan: ', patchedDonationPlan )
   if ( isEdit.value ) {
-    await donationsStore.donationPlanCreate( { patchedDonationPlan, id: editingId.value } )
+    if ( chip.value === 'future' ) {
+      await donationsStore.donationPlanUpdate( { patchedDonationPlan, id: editingId.value } )
+    } else {
+      await donationsStore.donationPastUpdate( { patchedDonationPlan, id: editingId.value } )
+    }
   } else {
-    await donationsStore.donationPlanCreate( patchedDonationPlan )
+    if ( chip.value === 'future' ) {
+      await donationsStore.donationPlanCreate( patchedDonationPlan )
+    } else {
+      await donationsStore.donationPastCreate( { ...patchedDonationPlan, donateAt: info.planDate } )
+    }
   }
 
 }

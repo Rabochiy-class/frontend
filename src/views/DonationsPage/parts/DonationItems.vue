@@ -12,7 +12,8 @@
     <DonationCard 
       v-for="card in cards"
       :key="card.id"
-      :card="card" />
+      :card="card"
+      @delete="deleteCard( card.id )" />
     <p v-if="!cards.length" >Донации по выбранным фильтрам отсутствуют. Можете создать их на странице «Запись»</p>
   </div>
 </template>
@@ -71,4 +72,9 @@ const cards2 = [
     bloodClass: 'blood',
   },
 ]
+
+const deleteCard = async ( id ) => {
+  await donationsStore.deleteDonation( id )
+}
+
 </script>

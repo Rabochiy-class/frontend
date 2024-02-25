@@ -50,8 +50,10 @@
 </template>
 
 <script setup >
-import { ref } from 'vue'
+import { ref, defineEmits } from 'vue'
 import { useRouter } from 'vue-router'
+
+const emit = defineEmits( [ 'delete' ] )
 
 const props = defineProps({
   card: {
@@ -68,7 +70,7 @@ const editDonation = () => {
   router.push( { name: 'OrderFormWithId', params: { body: JSON.stringify( props.card ) } } )
 }
 const deleteDonation = () => {
-  console.log( 'deleteDonation' )
+  emit( 'delete' )
 }
 </script>
 
