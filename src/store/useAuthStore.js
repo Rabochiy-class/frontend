@@ -9,7 +9,14 @@ export const useAuthStore = defineStore( 'auth', {
     authorized: false
   } ),
   actions: {
-    async getUserInfo(  ) {
+    async getAuth() {
+      try {
+        const { user } = await Service.authApi.authLoginCreate( { authLoginCreateRequest } )
+      } catch (error) {
+        
+      }
+    },
+    async getUserInfo() {
       try {
         const { user } = await Service.authApi.authLoginCreate( { authLoginCreateRequest } )
 

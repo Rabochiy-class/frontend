@@ -18,11 +18,15 @@
 
 <script setup >
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
+const router = useRouter()
 
 onMounted( () => {
+  if ( localStorage.getItem( 'token' ) ) {
+    router.push( { name: 'DonationsPage' } )
+  }
   page.value = route.name
 })
 

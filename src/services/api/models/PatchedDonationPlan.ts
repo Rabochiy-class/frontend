@@ -194,6 +194,7 @@ export function PatchedDonationPlanFromJSONTyped(json: any, ignoreDiscriminator:
 }
 
 export function PatchedDonationPlanToJSON(value?: PatchedDonationPlan | null): any {
+
     if (value === undefined) {
         return undefined;
     }

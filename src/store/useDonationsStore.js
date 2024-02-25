@@ -29,6 +29,18 @@ export const useDonationsStore = defineStore( 'donations', {
         return false
       }
     },
+    async donationPlanUpdate( donationPlan ) {
+      try {
+        console.log( 'donationPlan: ', donationPlan )
+
+        const { results } = await Service.donationPlanApi.donationPlanPartialUpdate( { donationPlan } )
+
+        // this.futureDonations = results
+      } catch (error) {
+        console.warn( error )
+        return false
+      }
+    },    
     async getDonations() {
       try {
         const { results } = await Service.donationApi.donationsList()

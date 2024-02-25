@@ -87,12 +87,19 @@ const parseISOString = (s) => {
   return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
 }
 
+const isEdit = ref( false )
+const editingId = ref( null )
 onMounted( () => {
   if ( route.params.body ) {
     emit( 'update' )
+
+    isEdit.value = true
+
     console.log( 'route: ', JSON.parse( route.params.body ) )
 
     const body = JSON.parse( route.params.body )
+
+    editingId.value = body.id
 
     cities = [ body.city ]
     info.cityId = body.cityId
@@ -127,14 +134,20 @@ const info = reactive({
 
 const donationsStore = useDonationsStore()
 const addDonation = async () => {
-  const body = {
+  const patchedDonationPlan = {
     ...info,
     isOut: info.isOut === 'Выездная акция',
     planDate: info.planDate ?? null,
     status: 'active',
   }
 
-  await donationsStore.donationPlanCreate( body )
+  console.log( 'patchedDonationPlan: ', patchedDonationPlan )
+  if ( isEdit.value ) {
+    await donationsStore.donationPlanCreate( { patchedDonationPlan, id: editingId.value } )
+  } else {
+    await donationsStore.donationPlanCreate( patchedDonationPlan )
+  }
+
 }
 
 const donationTypes = [
