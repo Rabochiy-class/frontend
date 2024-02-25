@@ -31,18 +31,18 @@ import {
     CityFromJSONTyped,
     CityToJSON,
 } from './City';
-import type { DonationPlanPaymentType } from './DonationPlanPaymentType';
-import {
-    DonationPlanPaymentTypeFromJSON,
-    DonationPlanPaymentTypeFromJSONTyped,
-    DonationPlanPaymentTypeToJSON,
-} from './DonationPlanPaymentType';
 import type { DonationPlanStatusEnum } from './DonationPlanStatusEnum';
 import {
     DonationPlanStatusEnumFromJSON,
     DonationPlanStatusEnumFromJSONTyped,
     DonationPlanStatusEnumToJSON,
 } from './DonationPlanStatusEnum';
+import type { PatchedDonationPlanPaymentType } from './PatchedDonationPlanPaymentType';
+import {
+    PatchedDonationPlanPaymentTypeFromJSON,
+    PatchedDonationPlanPaymentTypeFromJSONTyped,
+    PatchedDonationPlanPaymentTypeToJSON,
+} from './PatchedDonationPlanPaymentType';
 
 /**
  * 
@@ -118,10 +118,10 @@ export interface DonationPlan {
     planDate: Date;
     /**
      * 
-     * @type {DonationPlanPaymentType}
+     * @type {PatchedDonationPlanPaymentType}
      * @memberof DonationPlan
      */
-    paymentType?: DonationPlanPaymentType | null;
+    paymentType?: PatchedDonationPlanPaymentType | null;
     /**
      * 
      * @type {DonationPlanStatusEnum}
@@ -192,7 +192,7 @@ export function DonationPlanFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'objectId': !exists(json, 'object_id') ? undefined : json['object_id'],
         'bloodClass': !exists(json, 'blood_class') ? undefined : BloodClassF07EnumFromJSON(json['blood_class']),
         'planDate': (new Date(json['plan_date'])),
-        'paymentType': !exists(json, 'payment_type') ? undefined : DonationPlanPaymentTypeFromJSON(json['payment_type']),
+        'paymentType': !exists(json, 'payment_type') ? undefined : PatchedDonationPlanPaymentTypeFromJSON(json['payment_type']),
         'status': !exists(json, 'status') ? undefined : DonationPlanStatusEnumFromJSON(json['status']),
         'isOut': !exists(json, 'is_out') ? undefined : json['is_out'],
         'user': json['user'],
@@ -215,7 +215,7 @@ export function DonationPlanToJSON(value?: DonationPlan | null): any {
         'object_id': value.objectId,
         'blood_class': BloodClassF07EnumToJSON(value.bloodClass),
         'plan_date': (value.planDate.toISOString().substring(0,10)),
-        'payment_type': DonationPlanPaymentTypeToJSON(value.paymentType),
+        'payment_type': PatchedDonationPlanPaymentTypeToJSON(value.paymentType),
         'status': DonationPlanStatusEnumToJSON(value.status),
         'is_out': value.isOut,
         'content_type': value.contentType,

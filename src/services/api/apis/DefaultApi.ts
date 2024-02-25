@@ -60,7 +60,7 @@ export class DefaultApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/auth/confirm_email_reg/`,
+            path: `/api/auth/confirm_email_reg`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -91,7 +91,7 @@ export class DefaultApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/auth/registration/`,
+            path: `/api/auth/registration`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

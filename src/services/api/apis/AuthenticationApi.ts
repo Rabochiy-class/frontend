@@ -17,15 +17,15 @@ import * as runtime from '../runtime';
 import type {
   AuthLoginCreateRequest,
   AuthLogoutCreate200Response,
-  User,
+  UserHandler,
 } from '../models/index';
 import {
     AuthLoginCreateRequestFromJSON,
     AuthLoginCreateRequestToJSON,
     AuthLogoutCreate200ResponseFromJSON,
     AuthLogoutCreate200ResponseToJSON,
-    UserFromJSON,
-    UserToJSON,
+    UserHandlerFromJSON,
+    UserHandlerToJSON,
 } from '../models/index';
 
 export interface AuthLoginCreateOperationRequest {
@@ -41,7 +41,7 @@ export class AuthenticationApi extends runtime.BaseAPI {
      * Authenticates a user with a username and password. Handles email and phone number formats for usernames.
      * User Login
      */
-    async authLoginCreateRaw(requestParameters: AuthLoginCreateOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<User>> {
+    async authLoginCreateRaw(requestParameters: AuthLoginCreateOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<UserHandler>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -49,21 +49,21 @@ export class AuthenticationApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/auth/login/`,
+            path: `/api/auth/login`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
             body: AuthLoginCreateRequestToJSON(requestParameters.authLoginCreateRequest),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => UserFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => UserHandlerFromJSON(jsonValue));
     }
 
     /**
      * Authenticates a user with a username and password. Handles email and phone number formats for usernames.
      * User Login
      */
-    async authLoginCreate(requestParameters: AuthLoginCreateOperationRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<User> {
+    async authLoginCreate(requestParameters: AuthLoginCreateOperationRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<UserHandler> {
         const response = await this.authLoginCreateRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -78,7 +78,7 @@ export class AuthenticationApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/api/auth/logout/`,
+            path: `/api/auth/logout`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

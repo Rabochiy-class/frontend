@@ -3,25 +3,42 @@ import { Service } from '@/services'
 
 export const useDonationsStore = defineStore( 'donations', {
   state: () => ( {
-    user: {},
-    userId: null,
-    authorized: false
+    futureDonations: [],
+    pastDonations: [],
   } ),
   actions: {
     async getPlannedDonations() {
       try {
         console.log()
-        const plannedDonations = await Service.donationPlanApi.donationPlanList()
+        const { results } = await Service.donationPlanApi.donationPlanList()
 
-        console.log( 'plannedDonations: ', plannedDonations )
-
-        console.log( user )
+        this.futureDonations = results
       } catch (error) {
         console.warn( error )
         return false
       }
-      return this.authorized
-      // this.user = user
     },
+    async donationPlanCreate( donationPlan ) {
+      try {
+        console.log( 'donationPlan: ', donationPlan )
+        const { results } = await Service.donationPlanApi.donationPlanCreate( { donationPlan } )
+
+        // this.futureDonations = results
+      } catch (error) {
+        console.warn( error )
+        return false
+      }
+    },
+    async getDonations() {
+      try {
+        const { results } = await Service.donationApi.donationsList()
+
+        console.log( results )
+        this.pastDonations = results
+      } catch (error) {
+        console.warn( error )
+        return false
+      }
+    },    
   },
 } )

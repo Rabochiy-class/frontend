@@ -1,22 +1,34 @@
 import { defineStore } from 'pinia'
 import { Service } from '@/services'
+import cookie from 'cookiejs'
 
 export const useAuthStore = defineStore( 'auth', {
   state: () => ( {
-    user: {},
+    user: null,
     userId: null,
     authorized: false
   } ),
   actions: {
+    async getUserInfo(  ) {
+      try {
+        const { user } = await Service.authApi.authLoginCreate( { authLoginCreateRequest } )
+
+        this.user = user
+      } catch ( error ) {
+        console.warn( error )
+      }
+    },
     async authLogin( authLoginCreateRequest ) {
       try {
         console.log( { authLoginCreateRequest } )
-        const user = await Service.authApi.authLoginCreate( { authLoginCreateRequest } )
+        const { token, user } = await Service.authApi.authLoginCreate( { authLoginCreateRequest } )
 
         if ( user ) {
+          localStorage.setItem( 'token', token )
+          this.user = user
+
           return true
         }
-        console.log( user )
       } catch (error) {
         console.warn( error )
         return false

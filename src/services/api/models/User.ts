@@ -37,6 +37,12 @@ import {
     InlinePictureFromJSONTyped,
     InlinePictureToJSON,
 } from './InlinePicture';
+import type { PatchedUserGender } from './PatchedUserGender';
+import {
+    PatchedUserGenderFromJSON,
+    PatchedUserGenderFromJSONTyped,
+    PatchedUserGenderToJSON,
+} from './PatchedUserGender';
 import type { SimpleUserSocialAuth } from './SimpleUserSocialAuth';
 import {
     SimpleUserSocialAuthFromJSON,
@@ -49,12 +55,6 @@ import {
     TopUsersFromJSONTyped,
     TopUsersToJSON,
 } from './TopUsers';
-import type { UserGender } from './UserGender';
-import {
-    UserGenderFromJSON,
-    UserGenderFromJSONTyped,
-    UserGenderToJSON,
-} from './UserGender';
 
 /**
  * 
@@ -112,10 +112,10 @@ export interface User {
     birthDate?: Date | null;
     /**
      * 
-     * @type {UserGender}
+     * @type {PatchedUserGender}
      * @memberof User
      */
-    gender?: UserGender;
+    gender?: PatchedUserGender;
     /**
      * 
      * @type {string}
@@ -351,7 +351,7 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         'middleName': !exists(json, 'middle_name') ? undefined : json['middle_name'],
         'maidenName': !exists(json, 'maiden_name') ? undefined : json['maiden_name'],
         'birthDate': !exists(json, 'birth_date') ? undefined : (json['birth_date'] === null ? null : new Date(json['birth_date'])),
-        'gender': !exists(json, 'gender') ? undefined : UserGenderFromJSON(json['gender']),
+        'gender': !exists(json, 'gender') ? undefined : PatchedUserGenderFromJSON(json['gender']),
         'email': json['email'],
         'phone': json['phone'],
         'loginViaPhone': !exists(json, 'login_via_phone') ? undefined : json['login_via_phone'],
@@ -400,7 +400,7 @@ export function UserToJSON(value?: User | null): any {
         'middle_name': value.middleName,
         'maiden_name': value.maidenName,
         'birth_date': value.birthDate === undefined ? undefined : (value.birthDate === null ? null : value.birthDate.toISOString().substring(0,10)),
-        'gender': UserGenderToJSON(value.gender),
+        'gender': PatchedUserGenderToJSON(value.gender),
         'login_via_phone': value.loginViaPhone,
         'about': value.about,
         'city_id': value.cityId,

@@ -18,7 +18,7 @@
  * * `plasma` - Плазма
  * * `platelets` - Тромбоциты
  * * `erythrocytes` - Эритроциты
- * * `leukocytes` - Гранулоциты (Лейкоциты)      
+ * * `leukocytes` - Гранулоциты (Лейкоциты)
  * @export
  */
 export const BloodClassF07Enum = {

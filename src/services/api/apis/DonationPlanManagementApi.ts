@@ -15,12 +15,26 @@
 
 import * as runtime from '../runtime';
 import type {
+  DonationPlan,
   PaginatedDonationPlanList,
+  PatchedDonationPlan,
 } from '../models/index';
 import {
+    DonationPlanFromJSON,
+    DonationPlanToJSON,
     PaginatedDonationPlanListFromJSON,
     PaginatedDonationPlanListToJSON,
+    PatchedDonationPlanFromJSON,
+    PatchedDonationPlanToJSON,
 } from '../models/index';
+
+export interface DonationPlanCreateRequest {
+    donationPlan: DonationPlan;
+}
+
+export interface DonationPlanDestroyRequest {
+    id: number;
+}
 
 export interface DonationPlanListRequest {
     ordering?: string;
@@ -29,10 +43,85 @@ export interface DonationPlanListRequest {
     search?: string;
 }
 
+export interface DonationPlanPartialUpdateRequest {
+    id: number;
+    patchedDonationPlan?: PatchedDonationPlan;
+}
+
+export interface DonationPlanRetrieveRequest {
+    id: number;
+}
+
 /**
  * 
  */
 export class DonationPlanManagementApi extends runtime.BaseAPI {
+
+    /**
+     * Allows an authenticated user to create a new donation plan.
+     * Create a Donation Plan
+     */
+    async donationPlanCreateRaw(requestParameters: DonationPlanCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DonationPlan>> {
+        if (requestParameters.donationPlan === null || requestParameters.donationPlan === undefined) {
+            throw new runtime.RequiredError('donationPlan','Required parameter requestParameters.donationPlan was null or undefined when calling donationPlanCreate.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/donation_plan`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: DonationPlanToJSON(requestParameters.donationPlan),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DonationPlanFromJSON(jsonValue));
+    }
+
+    /**
+     * Allows an authenticated user to create a new donation plan.
+     * Create a Donation Plan
+     */
+    async donationPlanCreate(requestParameters: DonationPlanCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DonationPlan> {
+        const response = await this.donationPlanCreateRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Aborts a donation plan, marking it as aborted.
+     * Abort a Donation Plan
+     */
+    async donationPlanDestroyRaw(requestParameters: DonationPlanDestroyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling donationPlanDestroy.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/donation_plan/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'DELETE',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Aborts a donation plan, marking it as aborted.
+     * Abort a Donation Plan
+     */
+    async donationPlanDestroy(requestParameters: DonationPlanDestroyRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.donationPlanDestroyRaw(requestParameters, initOverrides);
+    }
 
     /**
      * Retrieves a list of donation plans created by the authenticated user, excluding aborted plans.
@@ -75,6 +164,73 @@ export class DonationPlanManagementApi extends runtime.BaseAPI {
      */
     async donationPlanList(requestParameters: DonationPlanListRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<PaginatedDonationPlanList> {
         const response = await this.donationPlanListRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Allows an authenticated user to partially update an existing donation plan. Only the provided fields will be updated.
+     * Partially Update a Donation Plan
+     */
+    async donationPlanPartialUpdateRaw(requestParameters: DonationPlanPartialUpdateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DonationPlan>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling donationPlanPartialUpdate.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/donation_plan/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+            body: PatchedDonationPlanToJSON(requestParameters.patchedDonationPlan),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DonationPlanFromJSON(jsonValue));
+    }
+
+    /**
+     * Allows an authenticated user to partially update an existing donation plan. Only the provided fields will be updated.
+     * Partially Update a Donation Plan
+     */
+    async donationPlanPartialUpdate(requestParameters: DonationPlanPartialUpdateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DonationPlan> {
+        const response = await this.donationPlanPartialUpdateRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get detailed information about a specific donation plan.
+     * Retrieve a Donation Plan
+     */
+    async donationPlanRetrieveRaw(requestParameters: DonationPlanRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<DonationPlan>> {
+        if (requestParameters.id === null || requestParameters.id === undefined) {
+            throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling donationPlanRetrieve.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/donation_plan/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters.id))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => DonationPlanFromJSON(jsonValue));
+    }
+
+    /**
+     * Get detailed information about a specific donation plan.
+     * Retrieve a Donation Plan
+     */
+    async donationPlanRetrieve(requestParameters: DonationPlanRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<DonationPlan> {
+        const response = await this.donationPlanRetrieveRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

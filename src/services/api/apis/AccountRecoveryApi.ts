@@ -15,6 +15,8 @@
 
 import * as runtime from '../runtime';
 import type {
+  AuthCheckSmsCodeCreate200Response,
+  AuthCheckSmsCodeCreateRequest,
   AuthLogoutCreate200Response,
   AuthRecoverCreate200Response,
   AuthRecoverCreate400Response,
@@ -24,6 +26,10 @@ import type {
   User,
 } from '../models/index';
 import {
+    AuthCheckSmsCodeCreate200ResponseFromJSON,
+    AuthCheckSmsCodeCreate200ResponseToJSON,
+    AuthCheckSmsCodeCreateRequestFromJSON,
+    AuthCheckSmsCodeCreateRequestToJSON,
     AuthLogoutCreate200ResponseFromJSON,
     AuthLogoutCreate200ResponseToJSON,
     AuthRecoverCreate200ResponseFromJSON,
@@ -39,6 +45,10 @@ import {
     UserFromJSON,
     UserToJSON,
 } from '../models/index';
+
+export interface AuthCheckSmsCodeCreateOperationRequest {
+    authCheckSmsCodeCreateRequest?: AuthCheckSmsCodeCreateRequest;
+}
 
 export interface AuthRecoverCreateOperationRequest {
     authRecoverCreateRequest?: AuthRecoverCreateRequest;
@@ -62,6 +72,37 @@ export interface AuthSetPasswordCreateRequest {
 export class AccountRecoveryApi extends runtime.BaseAPI {
 
     /**
+     * Verifies an SMS code sent to a user’s phone number.
+     * Check SMS Code
+     */
+    async authCheckSmsCodeCreateRaw(requestParameters: AuthCheckSmsCodeCreateOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AuthCheckSmsCodeCreate200Response>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/auth/check_sms_code`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: AuthCheckSmsCodeCreateRequestToJSON(requestParameters.authCheckSmsCodeCreateRequest),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => AuthCheckSmsCodeCreate200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Verifies an SMS code sent to a user’s phone number.
+     * Check SMS Code
+     */
+    async authCheckSmsCodeCreate(requestParameters: AuthCheckSmsCodeCreateOperationRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AuthCheckSmsCodeCreate200Response> {
+        const response = await this.authCheckSmsCodeCreateRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Handles account recovery through email or phone. The method of recovery depends on the user\'s registered login type. It sends an email or SMS with recovery instructions.
      * Account Recovery
      */
@@ -73,7 +114,7 @@ export class AccountRecoveryApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/auth/recover/`,
+            path: `/api/auth/recover`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -104,7 +145,7 @@ export class AccountRecoveryApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/auth/resend_code/`,
+            path: `/api/auth/resend_code`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -135,7 +176,7 @@ export class AccountRecoveryApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/auth/resend_email_code/`,
+            path: `/api/auth/resend_email_code`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -170,7 +211,7 @@ export class AccountRecoveryApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/auth/set_password/`,
+            path: `/api/auth/set_password`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

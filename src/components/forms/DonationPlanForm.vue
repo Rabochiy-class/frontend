@@ -64,7 +64,7 @@
     <VCardActions >
       <VBtn
         block
-        @click="createUser" >
+        @click="addDonation" >
         Записаться на донацию
       </VBtn>
     </VCardActions>
@@ -73,9 +73,10 @@
 
 <script setup >
 import { ref, reactive, onMounted, defineEmits } from 'vue'
-import { useAuthStore } from '@/store/useAuthStore'
+import { useDonationsStore } from '@/store/useDonationsStore'
 import FormCard from '@/components/cards/FormCard.vue'
 import { useRoute } from 'vue-router'
+import { PaymentTypeEnum } from '@/services/api';
 
 const emit = defineEmits( [ 'update' ] )
 
@@ -95,6 +96,9 @@ onMounted( () => {
 
     cities = [ body.city ]
     info.cityId = body.cityId
+
+
+    console.log( 'BODY_ACTIAL:', body )
 
     Object.keys( info ).forEach( ( key ) => {
       if ( body[ key ] !== null && body[ key ] !== undefined ) {
@@ -121,27 +125,16 @@ const info = reactive({
   donation: null,
 })
 
-const useAuth = useAuthStore()
-const createUser = async () => {
-  console.log( {
+const donationsStore = useDonationsStore()
+const addDonation = async () => {
+  const body = {
     ...info,
     isOut: info.isOut === 'Выездная акция',
-    planDate: info.planDate ? info.planDate.toLocaleString( 'ru' ) : null,
+    planDate: info.planDate ?? null,
+    status: 'active',
+  }
 
-  } )
-
-  // const { valid } = await form.value.validate()
-
-  // if ( valid ) {
-  //   try {
-  //     await useAuth.createUser(  user)
-  //     mode.value = 2
-  //   } catch ( error ) {
-  //     console.warn( error )
-  //     denied.value = true
-  //   }
-  // }
-
+  await donationsStore.donationPlanCreate( body )
 }
 
 const donationTypes = [
@@ -184,7 +177,7 @@ let cities = reactive([
 const bloodStations = [
   {
     title: 'ГКБ им. Е.О. Мухина, отделение переливания крови',
-    id: 633,
+    id: 68,
   },
   {
     title: 'Гематологический научный центр ФГБУ, ГНЦ',

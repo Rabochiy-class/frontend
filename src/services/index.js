@@ -1,17 +1,16 @@
-import { AuthenticationApi, DefaultApi, DonationPlanManagementApi, Configuration } from './api'
+import { AuthenticationApi, DefaultApi, DonationPlanManagementApi, DonationManagementApi, Configuration } from './api'
 
 const config = new Configuration( {
-  basePath: 'https://1702-31-129-45-170.ngrok-free.app',
-  headers: { 'ngrok-skip-browser-warning': '69420' },
-} )
-
-const mainConfig = new Configuration( {
-  basePath: 'https://1702-31-129-45-170.ngrok-free.app',
+  basePath: 'https://streamsync.ru/backend',
   credentials: 'include',
+  headers: {
+    'Authorization': 'Token ' + localStorage.getItem( 'token' )
+  }
 } )
 
 export const Service = {
   authApi: new AuthenticationApi( config ),
   defaultApi: new DefaultApi( config ),
-  donationPlanApi: new DonationPlanManagementApi( mainConfig ),
+  donationPlanApi: new DonationPlanManagementApi( config ),
+  donationApi: new DonationManagementApi( config )
 }

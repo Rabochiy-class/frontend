@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div v-if="user" >
     <div class="d-flex align-center">
       <VAvatar color="info" size="x-large" class="profile-info__avatar" >
         <VImg src="https://cdn.vuetifyjs.com/images/john.jpg" />
       </VAvatar>
       <div>
         <VCardTitle>{{ `${user.firstName} ${user.lastName}` }}</VCardTitle>
-        <VCardSubtitle >{{ user.city.title }}</VCardSubtitle>
+        <VCardSubtitle >{{ user.city ? user.city.title : 'Не определено' }}</VCardSubtitle>
         <VCardActions >
           <VBtn block >
             Потенциальный донор
@@ -25,7 +25,7 @@
         <VImg
           :src="getSrc( agg )"
           class="profile-info__agg" />
-        <p>{{ user.donation_agg[ agg ] }}</p>
+        <p>{{ user.donationAgg[ agg ] }}</p>
       </div>
     </div>
 
@@ -41,14 +41,14 @@
               <VImg
                 :src="getSrc( 'plasma' )"
                 class="profile-info__agg--mini mr-1" />
-              <p>{{ user.donation_agg[ 'plasma' ] }}</p>
+              <p>{{ user.donationAgg[ 'plasma' ] }}</p>
             </div>
 
             <div class="d-flex align-center" >
               <VImg
                 :src="getSrc( 'blood' )"
                 class="profile-info__agg--mini mr-1" />
-              <p>{{ user.donation_agg[ 'blood' ] }}</p>
+              <p>{{ user.donationAgg[ 'blood' ] }}</p>
             </div>
           </div>
         </div>
@@ -69,14 +69,14 @@
               <VImg
                 :src="getSrc( 'plasma' )"
                 class="profile-info__agg--mini mr-1" />
-              <p>{{ user.donation_agg[ 'plasma' ] }}</p>
+              <p>{{ user.donationAgg[ 'plasma' ] }}</p>
             </div>
 
             <div class="d-flex align-center" >
               <VImg
                 :src="getSrc( 'blood' )"
                 class="profile-info__agg--mini mr-1" />
-              <p>{{ user.donation_agg[ 'blood' ] }}</p>
+              <p>{{ user.donationAgg[ 'blood' ] }}</p>
             </div>
           </div>
         </div>
@@ -91,28 +91,41 @@
 </template>
 
 <script setup >
-import { reactive } from 'vue'
+import { computed, onMounted } from 'vue'
+import { useAuthStore } from '@/store/useAuthStore';
 
-const user = reactive({
-  photo: {
-    image: 'test',
-  },
-  firstName: 'firstName',
-  lastName: 'lastName',
-  city: {
-    title: 'Москва',
-  },
-  donation_agg: {
-    count: 0,
-    lastDonationAt: "2024-02-24",
-    blood: 0,
-    plasma: 0,
-    platelets: 0,
-    erythrocytes: 0,
-    leukocytes: 0,
-    unconfirmedDonations: 0
-  },
+const authStore = useAuthStore()
+
+onMounted( () => {
+  console.log( 'authStore.user: ', authStore.user )
 })
+
+const user = computed( () => {
+  return authStore.user ?? 
+  {
+    photo: 
+      {
+        image: 'test',
+      },
+    firstName: 'firstName',
+    lastName: 'lastName',
+    city: 
+      {
+        title: 'Москва',
+      },
+    donationAgg: 
+      {
+        count: 0,
+        lastDonationAt: "2024-02-24",
+        blood: 0,
+        plasma: 0,
+        platelets: 0,
+        erythrocytes: 0,
+        leukocytes: 0,
+        unconfirmedDonations: 0
+      },
+  }
+} )
 const donationAggs = [ 'blood', 'plasma', 'platelets', 'erythrocytes', 'leukocytes' ]
 
 const getSrc = ( key ) => `/src/assets/${key}.svg`

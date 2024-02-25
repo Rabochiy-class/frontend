@@ -15,7 +15,7 @@
 
 /**
  * * `free` - Безвозмездно
- * * `payed` - Платно      
+ * * `payed` - Платно
  * @export
  */
 export const PaymentTypeEnum = {

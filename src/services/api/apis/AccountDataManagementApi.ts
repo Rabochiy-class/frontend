@@ -19,6 +19,7 @@ import type {
   ChangePassword,
   EmailChangeSerialzier,
   EmailConfirmationSerialzier,
+  PatchedUser,
   PhoneChangeSerialzier,
   PhoneConfirmationSerialzier,
   User,
@@ -32,6 +33,8 @@ import {
     EmailChangeSerialzierToJSON,
     EmailConfirmationSerialzierFromJSON,
     EmailConfirmationSerialzierToJSON,
+    PatchedUserFromJSON,
+    PatchedUserToJSON,
     PhoneChangeSerialzierFromJSON,
     PhoneChangeSerialzierToJSON,
     PhoneConfirmationSerialzierFromJSON,
@@ -60,6 +63,10 @@ export interface AuthConfirmPhoneCreateRequest {
     phoneConfirmationSerialzier: PhoneConfirmationSerialzier;
 }
 
+export interface AuthMePartialUpdateRequest {
+    patchedUser?: PatchedUser;
+}
+
 /**
  * 
  */
@@ -81,7 +88,7 @@ export class AccountDataManagementApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/auth/change_email/`,
+            path: `/api/auth/change_email`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -112,7 +119,7 @@ export class AccountDataManagementApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/auth/change_password/`,
+            path: `/api/auth/change_password`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -147,7 +154,7 @@ export class AccountDataManagementApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/auth/change_phone/`,
+            path: `/api/auth/change_phone`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -182,7 +189,7 @@ export class AccountDataManagementApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/auth/confirm_email/`,
+            path: `/api/auth/confirm_email`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -217,7 +224,7 @@ export class AccountDataManagementApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/auth/confirm_phone/`,
+            path: `/api/auth/confirm_phone`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -233,6 +240,93 @@ export class AccountDataManagementApi extends runtime.BaseAPI {
      */
     async authConfirmPhoneCreate(requestParameters: AuthConfirmPhoneCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AuthLogoutCreate200Response> {
         const response = await this.authConfirmPhoneCreateRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Changes the phone number of a user.
+     * Change Phone Number
+     */
+    async authDonorCardRetrieveRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AuthLogoutCreate200Response>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/auth/donor_card`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => AuthLogoutCreate200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Changes the phone number of a user.
+     * Change Phone Number
+     */
+    async authDonorCardRetrieve(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<AuthLogoutCreate200Response> {
+        const response = await this.authDonorCardRetrieveRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Retrieves or updates the current user\'s information. Requires user to be authenticated.
+     * Get Or Update Current User Information
+     */
+    async authMePartialUpdateRaw(requestParameters: AuthMePartialUpdateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<User>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/api/auth/me`,
+            method: 'PATCH',
+            headers: headerParameters,
+            query: queryParameters,
+            body: PatchedUserToJSON(requestParameters.patchedUser),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => UserFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieves or updates the current user\'s information. Requires user to be authenticated.
+     * Get Or Update Current User Information
+     */
+    async authMePartialUpdate(requestParameters: AuthMePartialUpdateRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<User> {
+        const response = await this.authMePartialUpdateRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Retrieves or updates the current user\'s information. Requires user to be authenticated.
+     * Get Or Update Current User Information
+     */
+    async authMeRetrieveRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<User>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/api/auth/me`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => UserFromJSON(jsonValue));
+    }
+
+    /**
+     * Retrieves or updates the current user\'s information. Requires user to be authenticated.
+     * Get Or Update Current User Information
+     */
+    async authMeRetrieve(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<User> {
+        const response = await this.authMeRetrieveRaw(initOverrides);
         return await response.value();
     }
 

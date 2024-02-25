@@ -1,3 +1,12 @@
 <template>
-  <div class="text-h4">Это страница настроек, в которой готовится функционал редактирования личных данных пользователей</div>
+  <ProfileForm
+    :user="authStore.user"
+    @update="$emit( 'updateTabToForm' )" />
 </template>
+
+<script setup >
+import ProfileForm from '@/components/forms/ProfileForm.vue';
+import { useAuthStore } from '@/store/useAuthStore';
+
+const authStore = useAuthStore()
+</script>

@@ -32,24 +32,24 @@ import {
 } from './PaymentTypeEnum';
 
 /**
- * @type DonationPlanPaymentType
+ * @type PatchedDonationPlanPaymentType
  * 
  * @export
  */
-export type DonationPlanPaymentType = BlankEnum | NullEnum | PaymentTypeEnum;
+export type PatchedDonationPlanPaymentType = BlankEnum | NullEnum | PaymentTypeEnum;
 
-export function DonationPlanPaymentTypeFromJSON(json: any): DonationPlanPaymentType {
-    return DonationPlanPaymentTypeFromJSONTyped(json, false);
+export function PatchedDonationPlanPaymentTypeFromJSON(json: any): PatchedDonationPlanPaymentType {
+    return PatchedDonationPlanPaymentTypeFromJSONTyped(json, false);
 }
 
-export function DonationPlanPaymentTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): DonationPlanPaymentType {
+export function PatchedDonationPlanPaymentTypeFromJSONTyped(json: any, ignoreDiscriminator: boolean): PatchedDonationPlanPaymentType {
     if ((json === undefined) || (json === null)) {
         return json;
     }
-    return { error: 'error' } as any;
+    return json;
 }
 
-export function DonationPlanPaymentTypeToJSON(value?: DonationPlanPaymentType | null): any {
+export function PatchedDonationPlanPaymentTypeToJSON(value?: PatchedDonationPlanPaymentType | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -57,6 +57,6 @@ export function DonationPlanPaymentTypeToJSON(value?: DonationPlanPaymentType | 
         return null;
     }
 
-    return {};
+    return value
 }
 

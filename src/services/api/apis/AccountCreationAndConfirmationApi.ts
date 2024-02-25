@@ -50,7 +50,7 @@ export class AccountCreationAndConfirmationApi extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         const response = await this.request({
-            path: `/api/auth/confirm_phone_reg/`,
+            path: `/api/auth/confirm_phone_reg`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

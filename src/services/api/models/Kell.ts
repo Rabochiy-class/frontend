@@ -18,32 +18,38 @@ import {
     BlankEnumFromJSONTyped,
     BlankEnumToJSON,
 } from './BlankEnum';
-import type { GenderEnum } from './GenderEnum';
+import type { KellEnum } from './KellEnum';
 import {
-    GenderEnumFromJSON,
-    GenderEnumFromJSONTyped,
-    GenderEnumToJSON,
-} from './GenderEnum';
+    KellEnumFromJSON,
+    KellEnumFromJSONTyped,
+    KellEnumToJSON,
+} from './KellEnum';
+import type { NullEnum } from './NullEnum';
+import {
+    NullEnumFromJSON,
+    NullEnumFromJSONTyped,
+    NullEnumToJSON,
+} from './NullEnum';
 
 /**
- * @type UserGender
+ * @type Kell
  * 
  * @export
  */
-export type UserGender = BlankEnum | GenderEnum;
+export type Kell = BlankEnum | KellEnum | NullEnum;
 
-export function UserGenderFromJSON(json: any): UserGender {
-    return UserGenderFromJSONTyped(json, false);
+export function KellFromJSON(json: any): Kell {
+    return KellFromJSONTyped(json, false);
 }
 
-export function UserGenderFromJSONTyped(json: any, ignoreDiscriminator: boolean): UserGender {
+export function KellFromJSONTyped(json: any, ignoreDiscriminator: boolean): Kell {
     if ((json === undefined) || (json === null)) {
         return json;
     }
-    return { error: 'errorType' } as any;
+    return json;
 }
 
-export function UserGenderToJSON(value?: UserGender | null): any {
+export function KellToJSON(value?: Kell | null): any {
     if (value === undefined) {
         return undefined;
     }
